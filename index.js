@@ -8,14 +8,29 @@ const io = new Server(server);
 const fs=require('fs');
 const index=fs.readFileSync('index.html');
 const port=process.env.PORT || 8000
-
+const users={};
 app.get('/', (req, res) => {
     res.setHeader('content-Type','text/html')
     res.end(index);
 });
+
 io.on('connection', (socket) => {
-    socket.on('chat message', (msg) => {
-      io.emit('chat message', msg);
+  socket.on('new-user-joined', name => {console.log(name);
+      
+      if(name=="" || name==null){
+        users[socket.id]=`newbie`;
+        
+        socket.broadcast.emit('user-joined',users[socket.id]);
+      }
+      else{
+        users[socket.id]=name;
+        socket.broadcast.emit('user-joined',users[socket.id]);
+      }
+    
+  });
+    socket.on('send', message => {
+      
+      socket.broadcast.emit('receive',`${users[socket.id]}: ${message}`);
     });
   });
 server.listen(port, () => {
