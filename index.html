@@ -21,13 +21,19 @@
         background-color: rgb(139, 168, 203);
         overflow-y: scroll;
        }
-
-      #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem;  display: flex; height: 3rem; box-sizing: border-box; backdrop-filter: blur(10px);
-      max-width: 60%;
-    margin: 10px auto; }
-      #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+      #form{
+        
+        text-align: center;
+        margin-top: 10px;
+      }
+      #input{
+          height: 2rem;
+         }
+         button{
+height: 2rem;
+         }
       #input:focus { outline: none; }
-      #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff;
+      #form > button { 
       cursor: pointer; }
   .message{
     clear: both;
@@ -53,7 +59,14 @@ float: right;
         max-width: 90%;
         margin: 10px auto;
       }
-     
+     @media (min-width:10px) and (max-width:700px){
+         .container{
+          max-width: 100%;
+
+         }
+         
+         
+     }
      
     </style>
   </head>
