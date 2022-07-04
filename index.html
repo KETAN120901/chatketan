@@ -59,6 +59,12 @@ float: right;
         max-width: 90%;
         margin: 10px auto;
       }
+      .centerl{
+        text-align: center;
+        color: red;
+        max-width: 90%;
+        margin: 10px auto;
+      }
      @media (min-width:10px) and (max-width:700px){
          .container{
           max-width: 100%;
@@ -101,6 +107,9 @@ append(`${data} joined the chat`,'center');
   socket.on('receive',data=>{
     append(data,'left')
   })
+  socket.on('left', name =>{
+    append(`${name} left the chat`, 'centerl')
+})
   form.addEventListener('submit', function(e) {
     e.preventDefault();
     if (input.value) {
