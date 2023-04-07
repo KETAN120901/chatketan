@@ -5,110 +5,27 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
   <title>groupchat app</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      background-color: rgb(161, 222, 222);
-    }
-
-    .container {
-      max-width: 60%;
-      height: 80vh;
-      margin: auto;
-      border: 2px solid black;
-      background-color: rgb(139, 168, 203);
-      overflow-y: scroll;
-    }
-
-    #form {
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    #input {
-      height: 2rem;
-    }
-
-    button {
-      height: 2rem;
-    }
-
-    #input:focus {
-      outline: none;
-    }
-
-    #form>button {
-      cursor: pointer;
-    }
-
-    .message {
-      clear: both;
-      border: 2px solid black;
-      margin: 10px;
-      padding: 10px;
-      background-color: white;
-      border-radius: 5px;
-      max-width: 75%;
-    }
-
-    .left {
-      float: left;
-
-    }
-
-    .right {
-      float: right;
-
-    }
-
-    .center {
-      text-align: center;
-      color: green;
-      max-width: 90%;
-      margin: 10px auto;
-    }
-
-    .centerl {
-      text-align: center;
-      color: red;
-      max-width: 90%;
-      margin: 10px auto;
-    }
-
-    @media (min-width:10px) and (max-width:700px) {
-      .container {
-        max-width: 100%;
-      }
-    }
-
-    .online {
-      display: flex;
-      overflow-x: scroll;
-
-    }
-
-    .online div {
-      margin: 5px;
-      font-size: 1.3rem;
-    }
   </style>
 </head>
-
 <body>
+  
   <div class="container">
     <div class="online message center">
       <div>online:</div>
     </div>
+    <%que.forEach(element => {%>
+      <div class="left message"><span style="color:blue"><%=element.name%> :</span> <%=element.content%></div>
+    <%})%>
   </div>
   <form id="form" action="">
     <input id="input" autocomplete="off" /><button type="submit">Send</button>
   </form>
   <script src="socket.io/socket.io.js"></script>
   <script>
+    
     var socket = io();
     var messageContainer = document.querySelector(".container");
     var online = document.querySelector(".online");
@@ -116,10 +33,12 @@
     var input = document.getElementById('input');
     const append = (message, position) => {
       const messageElement = document.createElement('div');
-      messageElement.innerText = message;
+      messageElement.innerHTML = message;
       messageElement.classList.add('message');
       messageElement.classList.add(position);
       messageContainer.append(messageElement);
+      messageContainer.scrollTo(0, messageContainer.scrollHeight);
+      
     }
     const name = prompt("Enter your name");
     socket.emit('new-user-joined', name);
@@ -149,7 +68,7 @@
       e.preventDefault();
       if (input.value) {
         const message = input.value;
-        append(`you: ${message}`, 'right');
+        append(`<span style="color:blue">you: </span> ${message}`, 'right');
         socket.emit('send', message);
         input.value = "";
       }
